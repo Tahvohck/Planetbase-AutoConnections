@@ -46,8 +46,9 @@ namespace Tahvohck_Mods.JPFariasUpdates
             // Don't run if module position was invalid
             if (__state is null) { return; }
 
+#if DEBUG
             TahvUtil.Log($"Running connections on a {__state.ActiveModule.getName()}");
-
+#endif
             List<Module> linkable = Module.mModules.FindAll((module) =>
                 !(module is null)
                 && module != __state.ActiveModule
