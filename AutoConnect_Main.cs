@@ -25,6 +25,10 @@ namespace Tahvohck_Mods.JPFariasUpdates
     }
 
 
+    /// <summary>
+    /// Because we need an object that is disposed of during the original call, we have to grab that object
+    /// during a prefix, then operate on it during a postfix. This works without any noticeable issues.
+    /// </summary>
     [HarmonyPatch(typeof(GameStateGame), "placeModule")]
     public class PatchGameState
     {
@@ -41,7 +45,7 @@ namespace Tahvohck_Mods.JPFariasUpdates
 
         public static void Postfix(object[] __state)
         {
-            // Don't run if instance is null
+            // Don't run if module position was invalid
             if (__state is null) { return; }
 
             Module currentModule = __state[0] as Module;
