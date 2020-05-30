@@ -1,7 +1,7 @@
 # Planetbase-AutoConnections
 An update of JPFarias's AutoConnections mod 
-[Nexus](https://www.nexusmods.com/planetbase/mods/9)
-[Source](https://bitbucket.org/joaofarias/planetbase-modding/src/master/AutoConnections/)
+([Nexus](https://www.nexusmods.com/planetbase/mods/9))
+([Source](https://bitbucket.org/joaofarias/planetbase-modding/src/master/AutoConnections/))
 , modified to use Harmony instead of Redirector. It relies on my own file (Modhooker) to ensure that the game's databases are
 reloaded correctly and for some logging actions, but this is not really needed and the dependency can be coded out if desired.
 
