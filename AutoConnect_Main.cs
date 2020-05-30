@@ -52,9 +52,7 @@ namespace Tahvohck_Mods.JPFariasUpdates
             List<Module> linkable = Module.mModules.FindAll((module) =>
                 !(module is null)
                 && module != __state.ActiveModule
-                && Connection.canLink(
-                    __state.ActiveModule, module,
-                    __state.ActiveModule.getPosition(), module.getPosition())
+                && Connection.canLink(__state.ActiveModule, module)
             );
 
             linkable.ForEach(delegate (Module module) {
