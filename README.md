@@ -2,8 +2,20 @@
 An update of JPFarias's AutoConnections mod 
 ([Nexus](https://www.nexusmods.com/planetbase/mods/9))
 ([Source](https://bitbucket.org/joaofarias/planetbase-modding/src/master/AutoConnections/))
-, modified to use Harmony instead of Redirector. It relies on my own file (Modhooker) to ensure that the game's databases are
-reloaded correctly and for some logging actions, but this is not really needed and the dependency can be coded out if desired.
+, modified to use Harmony instead of Redirector. It relies on my own utilities library (PBUtilities) to
+get the list of all modules (AKA to abstract away the reflection).
 
-At the moment, it is designed for use with the original version of [Planetbase Mod Patcher](https://www.nexusmods.com/planetbase/mods/1)
-but I may (read: probably will) update it for the newer version found [here](https://www.nexusmods.com/planetbase/mods/35).
+It uses Unity Mod Manager to hook into the game. To add Planetbase support, add this to
+UnityModManagerConfig.xml:
+
+```xml
+<GameInfo Name="Planetbase">
+	<Folder>Planetbase</Folder>
+	<ModsDirectory>Mods</ModsDirectory>
+	<ModInfo>Info.json</ModInfo>
+	<GameExe>Planetbase.exe</GameExe>
+	<EntryPoint>[UnityEngine.UI.dll]UnityEngine.Canvas.cctor:Before</EntryPoint>
+	<StartingPoint>[Assembly-CSharp.dll]Planetbase.GameStateLogo.load:After</StartingPoint>
+	<MinimalManagerVersion>0.22.3</MinimalManagerVersion>
+</GameInfo>
+```
