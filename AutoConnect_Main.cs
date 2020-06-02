@@ -3,24 +3,19 @@ using Planetbase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Tahvohck_Mods.JPFariasUpdates
 {
-    public class Mod : IMod, ITahvUtilMod
+    using Module = Planetbase.Module;
+    using ModuleReflect = System.Reflection.Module;
+
+    public class AutoConnections
     {
-        public void Init()
+        public static void Init()
         {
-            ZZZ_Modhooker.UtilsReadyEvent += Setup;
-        }
-
-        public void Update()
-        { }
-
-        public void Setup(object caller, EventArgs evArgs)
-        {
-            new Harmony(typeof(Mod).FullName).PatchAll();
-            TahvUtil.Log("Patched.");
+            new Harmony(typeof(AutoConnections).FullName).PatchAll();
         }
     }
 
@@ -32,10 +27,21 @@ namespace Tahvohck_Mods.JPFariasUpdates
     [HarmonyPatch(typeof(GameStateGame), "placeModule")]
     public class PatchGameState
     {
+        private static MethodInfo recycleLinkComponents = typeof(Module)
+            .GetMethod("recycleLinkComponents", BindingFlags.NonPublic | BindingFlags.Instance);
+
         public static void Prefix(GameStateGame __instance, out State __state)
         {
-            if (__instance.mActiveModule.isValidPosition()) {
-                __state = new State(__instance.mActiveModule, __instance.mRenderTops);
+            Module mActiveModule = __instance.GetType()
+                .GetField("mActiveModule", BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetValue(__instance) as Module;
+            bool? mRenderTops = __instance.GetType()
+                .GetField("mRenderTops", BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetValue(__instance) as bool?;
+
+
+            if (mActiveModule.isValidPosition()) {
+                __state = new State(mActiveModule, (bool)mRenderTops);
             } else {
                 __state = null;
             }
@@ -46,21 +52,18 @@ namespace Tahvohck_Mods.JPFariasUpdates
             // Don't run if module position was invalid
             if (__state is null) { return; }
 
-#if DEBUG
-            TahvUtil.Log($"Running connections on a {__state.ActiveModule.getName()}");
-#endif
-            List<Module> linkable = Module.mModules.FindAll((module) =>
-                !(module is null)
-                && module != __state.ActiveModule
-                && Connection.canLink(__state.ActiveModule, module)
+            var linkable = ModuleHelper.GetAllModules((module) =>
+                module != __state.ActiveModule
+                && Connection.canLink(module, __state.ActiveModule)
             );
 
             linkable.ForEach(delegate (Module module) {
                 Connection c = Connection.create(__state.ActiveModule, module);
                 c.onUserPlaced();
                 c.setRenderTop(__state.RenderTops);
-                __state.ActiveModule.recycleLinkComponents();
-                module.recycleLinkComponents();
+
+                recycleLinkComponents.Invoke(__state.ActiveModule, null);
+                recycleLinkComponents.Invoke(module, null);
             });
         }
 
