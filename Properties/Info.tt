@@ -2,8 +2,10 @@
 <#@ include file="version.t4" #>
 <#@ output extension=".json" #>
 {
+    "ID":           "AutoConnections",
     "Author":       "Tahvohck",
     "Version":      "<#= this.version #>.<#= this.buildID #>",
+
     "EntryPoint":   "Tahvohck_Mods.JPFariasUpdates.AutoConnections.Init",
     "DisplayName":  "Automatically Create Connections",
     "Requirements": [ "PBUtilities" ]
