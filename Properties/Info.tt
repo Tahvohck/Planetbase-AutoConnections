@@ -5,7 +5,8 @@
     "ID":           "JPFarias-AutoConnections",
     "Author":       "Tahvohck",
     "Version":      "<#= this.version #>.<#= this.buildID #>",
-    "EntryPoint":   "Tahvohck_Mods.JPFariasUpdates.AutoConnections.Init",
+    "EntryMethod":   "FALSE-STUB",
+
     "DisplayName":  "Automatically Create Connections",
     "Requirements": [ "PBUtilities" ]
 }
