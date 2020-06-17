@@ -13,6 +13,7 @@ namespace Tahvohck_Mods.JPFariasUpdates
 
     public class AutoConnections
     {
+        [LoaderOptimization(LoaderOptimization.NotSpecified)]
         public static void Init()
         {
             new Harmony(typeof(AutoConnections).FullName).PatchAll();
