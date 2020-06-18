@@ -2,11 +2,11 @@
 <#@ include file="version.t4" #>
 <#@ output extension=".json" #>
 {
-    "ID":           "JPFarias-AutoConnections",
+    "ID":           "AutoConnections",
     "Author":       "Tahvohck",
     "Version":      "<#= this.version #>.<#= this.buildID #>",
     "EntryMethod":   "FALSE-STUB",
 
-    "DisplayName":  "Automatically Create Connections",
+    "DisplayName":  "AutoConnections ReManaged",
     "Requirements": [ "PBUtilities" ]
 }
