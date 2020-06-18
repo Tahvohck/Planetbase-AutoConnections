@@ -7,6 +7,6 @@
     "Version":      "<#= this.version #>.<#= this.buildID #>",
     "EntryMethod":   "FALSE-STUB",
 
-    "DisplayName":  "Automatically Create Connections",
+    "DisplayName":  "AutoConnections ReManaged",
     "Requirements": [ "PBUtilities" ]
 }
